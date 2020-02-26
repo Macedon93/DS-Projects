@@ -2,7 +2,8 @@
 #Best subset is a shrinkage/feature selection algorithm that 
 #selects the optimum combination of features that infuence the 
 #response variable. 
-install.packages(leaps)#didnt work because i did not use quotes. 
+
+install.packages(leaps) 
 library(ISLR)
 #here we explore and see that there are NA values in salary feature vector. 
 fix(Hitters)
@@ -102,6 +103,7 @@ mean.cv.errors
 which.min(mean.cv.errors)
 par(mfrow=c(1,1))
 plot(mean.cv.errors,type = 'b')
+
 #now perfrom best subset on full model and get coefficients from 11 variable model. 
 reg.best=regsubsets(Salary~.,data = Hitters,nvmax = 19)
 coef(reg.best,11)#best model via cv and best subset. 
