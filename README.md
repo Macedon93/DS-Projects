@@ -1,2 +1,2 @@
 # DS Projects
- Dataset analyses using various techniques. The repo consists of various project directories. Each directory will have a readme explaining   the goal of the script/project. Most work is submitted in R and Python. 
+ Dataset analyses using various techniques. the Read.me within each directory will describe the code and its reasoning. Most of the python files are data grunding and cleaning, while my r code is based around drawing inference and playing around with different statistical learning models.
