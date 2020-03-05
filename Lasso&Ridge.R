@@ -3,13 +3,11 @@ library(MASS)
 library(ISLR)
 library(glmnet)
 
-#ensure that the missing values have been
-# removed from the data. 
 x=model.matrix (Salary~.,Hitters )[,-1]
 y=Hitters$Salary
 #alpha=0, ridge is performed, lasso if alpha=1
 
-#grid changing lambda range values for ridge regression.
+#grid=changing lambda range values for ridge regression.
 grid=10^seq(10,-2,length=100)
 #glmnet automatically standardizes variables
 ridge.mod=glmnet(x,y,alpha = 0,lambda = grid)
@@ -33,9 +31,9 @@ ridge.pred=predict(ridge.mod,s=4,newx = x[test,])
 mean((ridge.pred-y.test)^2)
 #lets compare this to if we jsust fit the model with just an intercept
 mean((mean(y[train])-y.test)^2)
-#----------------------------------#
+#------------------------------------------------------#
 #Use of crossvalidation to find the best value of lambda
-#----------------------------------#
+#------------------------------------------------------#
 set.seed(1)
 cv.out=cv.glmnet(x[train,],y[train],alpha=0)
 plot(cv.out)
@@ -48,12 +46,11 @@ mean((ridge.pred3-y.test)^2)#lowest MSE
 # lets now refit our ridge regression on the full dataset with this newly found parameter. 
 out=glmnet(x,y,alpha=0)
 predict(out,type = "coefficients",s=best.lam)[1:20,]
-#as we can expect none of the new coefficients are 0, as ridge 
-# regression does not perform variable selection. 
+#as we can expect none of the new coefficients are 0, as ridge regression does not perform variable selection. 
 
-#----------------------------------#
+#----------------------------------------------------------------#
 #Lasso time! Lets try to make this model more interpretable. 
-#----------------------------------#
+#----------------------------------------------------------------#
 
 lasso.mod=glmnet(x[train,],y[train],alpha = 1, lambda = grid)
 plot(lasso.mod)
@@ -63,8 +60,7 @@ bestlam=cv.out$lambda.min
 lasso.pred=predict(lasso.mod,s=bestlam, newx=x[test,])
 mean((lasso.pred-y.test)^2)
 #results much better than least sqaures and is similiar to ridge
-#however the model is much more interpretable as
-#some features' coefficients have been set to 0.
+#however the model is much more interpretable as some features' coefficients have been set to 0.
 out=glmnet(x,y,alpha=1,lambda=grid)
 lasso.coef=predict(out,type = "coefficients",s=bestlam)[1:20,]
 lasso.coef
