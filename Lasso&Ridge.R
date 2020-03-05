@@ -64,3 +64,26 @@ mean((lasso.pred-y.test)^2)
 out=glmnet(x,y,alpha=1,lambda=grid)
 lasso.coef=predict(out,type = "coefficients",s=bestlam)[1:20,]
 lasso.coef
+#---PCR Regression---#
+library(pls)
+set.seed(2)
+#model fit syntax similiar to lm() for least squares
+pcr.fit=pcr(Salary~.,data=Hitters, scale=TRUE,
+ validation="CV")
+
+# validation cv makes pcr compute the 10 fold cv error for each M(number of Principle components).
+summary(pcr.fit)
+validationplot(pcr.fit,val.type = "MSEP")
+
+set.seed(1)
+pcr.fit=pcr(Salary~.,data=Hitters, subset=train, scale=TRUE,
+validation="CV")
+validationplot(pcr.fit,val.type = "MSEP")
+
+pcr.pred=predict(pcr.fit,x[test,],ncomp = 7)
+mean((pcr.pred-y.test)^2)
+#Lower MSE than ridge and lasso, however at the cost of interpretibility. No theta estimates and 
+#absolutely no kind of variable selection. 
+
+pcr.fit=pcr(y~x,scale=TRUE,ncomp=7)
+summary(pcr.fit)
