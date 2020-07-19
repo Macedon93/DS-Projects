@@ -87,3 +87,5 @@ mean((pcr.pred-y.test)^2)
 
 pcr.fit=pcr(y~x,scale=TRUE,ncomp=7)
 summary(pcr.fit)
+------------------------------
+#Dimension Reduction methods such as this serve as dimension reduction and are a main technique in data mining.# 
